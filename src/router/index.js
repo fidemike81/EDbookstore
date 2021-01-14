@@ -1,10 +1,17 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import { LoginRoutes } from '@/modules/login/routes'
+// import HomePage from '@/pages/Home'
 
 Vue.use(VueRouter)
 
-const routes = []
+const routes = [
+  {
+    path: '/',
+    redirect: '/signin',   //Con esto siempre nos envia a SignIn para que el usuario se loguee
+  }, 
+  ...LoginRoutes,
+]
 
 const router = new VueRouter({
   mode: 'history',
