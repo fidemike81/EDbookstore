@@ -1,22 +1,41 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import { LoginRoutes } from '@/modules/login/routes'
-// import HomePage from '@/pages/Home'
+import { AuthorRoutes } from '@/modules/author/routes'
+import HomePage from '@/pages/Home'
+import store from '../store'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    redirect: '/signin',   //Con esto siempre nos envia a SignIn para que el usuario se loguee
+    component: HomePage,
+    meta: {
+      requiresAuth: false
+    }
   }, 
   ...LoginRoutes,
+  ...AuthorRoutes
 ]
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  routes,
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (store.getters['login/isUserConnected']) {
+      next()
+
+      return
+    }
+    next('/singin')
+  } else {
+    next()
+  }
 })
 
 export default router
