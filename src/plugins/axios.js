@@ -11,8 +11,8 @@ let config = {
 export const httpClient = axios.create(config)
 
 Plugin.install = function(Vue) {  // Tuve que eliminarlo, originalmente dice 'function (Vue, options)'
-  Vue.axios = httpClient,
-  window.axios = httpClient,
+  Vue.axios = httpClient
+  window.axios = httpClient
   Object.defineProperties(Vue.prototype, {
     axios: {
       get() {
